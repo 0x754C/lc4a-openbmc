@@ -1,0 +1,10 @@
+[Unit]
+Description= Console SSH socket for Slot4
+Wants=obmc-console@ttyS4.service
+
+[Socket]
+ListenStream=2304
+Accept=yes
+
+[Install]
+WantedBy=sockets.target

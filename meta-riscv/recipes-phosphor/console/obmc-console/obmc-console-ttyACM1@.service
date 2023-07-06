@@ -1,0 +1,10 @@
+[Unit]
+Description= Console SSH socket for Slot7
+Wants=obmc-console@ttyACM1.service
+
+[Service]
+ExecStart=/usr/sbin/dropbear -i -r /etc/dropbear/dropbear_rsa_host_key -c "/usr/bin/obmc-console-client -c /etc/obmc-console/client.2207.conf" $DROPBEAR_EXTRA_ARGS
+SyslogIdentifier=console-client-ACM1
+ExecReload=/bin/kill -HUP $MAINPID
+StandardInput=socket
+KillMode=process

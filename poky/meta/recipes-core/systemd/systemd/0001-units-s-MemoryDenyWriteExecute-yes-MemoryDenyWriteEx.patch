@@ -1,0 +1,310 @@
+From b75b5df994f270592f165e71948e02ffed80a8c5 Mon Sep 17 00:00:00 2001
+From: Lu Hui <luhui@sipeed.com>
+Date: Fri, 7 Jul 2023 14:27:23 +0800
+Subject: [PATCH] units:
+ s/MemoryDenyWriteExecute=yes/MemoryDenyWriteExecute=no/g, fix PORT_EXEC perm
+
+Upstream-Status: Denied
+
+just for temp fix, need found reason
+
+---
+ units/systemd-coredump@.service.in        | 2 +-
+ units/systemd-homed.service.in            | 2 +-
+ units/systemd-hostnamed.service.in        | 2 +-
+ units/systemd-importd.service.in          | 2 +-
+ units/systemd-journal-gatewayd.service.in | 2 +-
+ units/systemd-journal-remote.service.in   | 2 +-
+ units/systemd-journal-upload.service.in   | 2 +-
+ units/systemd-journald.service.in         | 2 +-
+ units/systemd-journald@.service.in        | 2 +-
+ units/systemd-localed.service.in          | 2 +-
+ units/systemd-logind.service.in           | 2 +-
+ units/systemd-machined.service.in         | 2 +-
+ units/systemd-networkd.service.in         | 2 +-
+ units/systemd-oomd.service.in             | 2 +-
+ units/systemd-portabled.service.in        | 2 +-
+ units/systemd-resolved.service.in         | 2 +-
+ units/systemd-sysupdate.service.in        | 2 +-
+ units/systemd-timedated.service.in        | 2 +-
+ units/systemd-timesyncd.service.in        | 2 +-
+ units/systemd-udevd.service.in            | 2 +-
+ units/systemd-userdbd.service.in          | 2 +-
+ 21 files changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/units/systemd-coredump@.service.in b/units/systemd-coredump@.service.in
+index 15bfb243b4..7d86736a7d 100644
+--- a/units/systemd-coredump@.service.in
++++ b/units/systemd-coredump@.service.in
+@@ -20,7 +20,7 @@ Before=shutdown.target
+ ExecStart=-{{ROOTLIBEXECDIR}}/systemd-coredump
+ IPAddressDeny=any
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ Nice=9
+ NoNewPrivileges=yes
+ OOMScoreAdjust=500
+diff --git a/units/systemd-homed.service.in b/units/systemd-homed.service.in
+index 52caa4e22e..6ede446284 100644
+--- a/units/systemd-homed.service.in
++++ b/units/systemd-homed.service.in
+@@ -24,7 +24,7 @@ ExecStart={{ROOTLIBEXECDIR}}/systemd-homed
+ KillMode=mixed
+ LimitNOFILE={{HIGH_RLIMIT_NOFILE}}
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ RestrictAddressFamilies=AF_UNIX AF_NETLINK AF_ALG AF_INET AF_INET6
+ RestrictNamespaces=mnt user
+diff --git a/units/systemd-hostnamed.service.in b/units/systemd-hostnamed.service.in
+index 9ac56baf42..4dd6a57a1e 100644
+--- a/units/systemd-hostnamed.service.in
++++ b/units/systemd-hostnamed.service.in
+@@ -20,7 +20,7 @@ CapabilityBoundingSet=CAP_SYS_ADMIN
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-hostnamed
+ IPAddressDeny=any
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ PrivateDevices=yes
+ PrivateNetwork=yes
+diff --git a/units/systemd-importd.service.in b/units/systemd-importd.service.in
+index 080cc646a9..e3d410445e 100644
+--- a/units/systemd-importd.service.in
++++ b/units/systemd-importd.service.in
+@@ -18,7 +18,7 @@ BusName=org.freedesktop.import1
+ KillMode=mixed
+ CapabilityBoundingSet=CAP_CHOWN CAP_FOWNER CAP_FSETID CAP_MKNOD CAP_SETFCAP CAP_SYS_ADMIN CAP_SETPCAP CAP_DAC_OVERRIDE CAP_LINUX_IMMUTABLE
+ NoNewPrivileges=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ ProtectHostname=yes
+ RestrictRealtime=yes
+ RestrictNamespaces=net
+diff --git a/units/systemd-journal-gatewayd.service.in b/units/systemd-journal-gatewayd.service.in
+index 81c53fa01f..f2e6c5fc0e 100644
+--- a/units/systemd-journal-gatewayd.service.in
++++ b/units/systemd-journal-gatewayd.service.in
+@@ -16,7 +16,7 @@ Requires=systemd-journal-gatewayd.socket
+ DynamicUser=yes
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-journal-gatewayd
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ PrivateDevices=yes
+ PrivateNetwork=yes
+ ProtectProc=invisible
+diff --git a/units/systemd-journal-remote.service.in b/units/systemd-journal-remote.service.in
+index d8f28f252c..45b2e8fd5c 100644
+--- a/units/systemd-journal-remote.service.in
++++ b/units/systemd-journal-remote.service.in
+@@ -16,7 +16,7 @@ Requires=systemd-journal-remote.socket
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-journal-remote --listen-https=-3 --output=/var/log/journal/remote/
+ LockPersonality=yes
+ LogsDirectory=journal/remote
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ PrivateDevices=yes
+ PrivateNetwork=yes
+diff --git a/units/systemd-journal-upload.service.in b/units/systemd-journal-upload.service.in
+index e4359a80e4..1d9524144a 100644
+--- a/units/systemd-journal-upload.service.in
++++ b/units/systemd-journal-upload.service.in
+@@ -17,7 +17,7 @@ After=network-online.target
+ DynamicUser=yes
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-journal-upload --save-state
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ PrivateDevices=yes
+ ProtectProc=invisible
+ ProtectControlGroups=yes
+diff --git a/units/systemd-journald.service.in b/units/systemd-journald.service.in
+index ece872c770..6335e35d0b 100644
+--- a/units/systemd-journald.service.in
++++ b/units/systemd-journald.service.in
+@@ -26,7 +26,7 @@ ExecStart={{ROOTLIBEXECDIR}}/systemd-journald
+ FileDescriptorStoreMax=4224
+ IPAddressDeny=any
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ OOMScoreAdjust=-250
+ ProtectClock=yes
+diff --git a/units/systemd-journald@.service.in b/units/systemd-journald@.service.in
+index 35c998285f..1c706ad4f7 100644
+--- a/units/systemd-journald@.service.in
++++ b/units/systemd-journald@.service.in
+@@ -23,7 +23,7 @@ IPAddressDeny=any
+ LockPersonality=yes
+ LogsDirectory=journal/%m.%i
+ LogsDirectoryMode=02755
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ RestrictAddressFamilies=AF_UNIX AF_NETLINK
+ RestrictNamespaces=yes
+diff --git a/units/systemd-localed.service.in b/units/systemd-localed.service.in
+index f9a92fef7b..6d299eae58 100644
+--- a/units/systemd-localed.service.in
++++ b/units/systemd-localed.service.in
+@@ -20,7 +20,7 @@ CapabilityBoundingSet=
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-localed
+ IPAddressDeny=any
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ PrivateDevices=yes
+ PrivateNetwork=yes
+diff --git a/units/systemd-logind.service.in b/units/systemd-logind.service.in
+index 24f5ddaa17..073ec72953 100644
+--- a/units/systemd-logind.service.in
++++ b/units/systemd-logind.service.in
+@@ -34,7 +34,7 @@ ExecStart={{ROOTLIBEXECDIR}}/systemd-logind
+ FileDescriptorStoreMax=512
+ IPAddressDeny=any
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ PrivateTmp=yes
+ # We don't use ProtectProc= since we need to look for usernames and tty for wall messages
+diff --git a/units/systemd-machined.service.in b/units/systemd-machined.service.in
+index d3f8abd9e4..48da981d1f 100644
+--- a/units/systemd-machined.service.in
++++ b/units/systemd-machined.service.in
+@@ -22,7 +22,7 @@ CapabilityBoundingSet=CAP_KILL CAP_SYS_PTRACE CAP_SYS_ADMIN CAP_SETGID CAP_SYS_C
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-machined
+ IPAddressDeny=any
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ ProtectHostname=yes
+ RestrictAddressFamilies=AF_UNIX AF_NETLINK AF_INET AF_INET6
+diff --git a/units/systemd-networkd.service.in b/units/systemd-networkd.service.in
+index 9f0af57fdc..d99ef4fd41 100644
+--- a/units/systemd-networkd.service.in
++++ b/units/systemd-networkd.service.in
+@@ -27,7 +27,7 @@ DeviceAllow=char-* rw
+ ExecStart=!!{{ROOTLIBEXECDIR}}/systemd-networkd
+ FileDescriptorStoreMax=512
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ ProtectProc=invisible
+ ProtectClock=yes
+diff --git a/units/systemd-oomd.service.in b/units/systemd-oomd.service.in
+index c138f5eefa..1c87a8c5c8 100644
+--- a/units/systemd-oomd.service.in
++++ b/units/systemd-oomd.service.in
+@@ -29,7 +29,7 @@ CapabilityBoundingSet=CAP_KILL CAP_DAC_OVERRIDE
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-oomd
+ IPAddressDeny=any
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ # Reserve some minimum amount of memory so that systemd-oomd can continue to
+ # run in resource starved scenarios.
+ MemoryMin=64M
+diff --git a/units/systemd-portabled.service.in b/units/systemd-portabled.service.in
+index ab660ce36c..02073ab443 100644
+--- a/units/systemd-portabled.service.in
++++ b/units/systemd-portabled.service.in
+@@ -17,7 +17,7 @@ RequiresMountsFor=/var/lib/portables
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-portabled
+ BusName=org.freedesktop.portable1
+ CapabilityBoundingSet=CAP_KILL CAP_SYS_PTRACE CAP_SYS_ADMIN CAP_SETGID CAP_SYS_CHROOT CAP_DAC_READ_SEARCH CAP_DAC_OVERRIDE CAP_CHOWN CAP_FOWNER CAP_FSETID CAP_MKNOD
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ ProtectHostname=yes
+ ProtectKernelLogs=yes
+ RestrictRealtime=yes
+diff --git a/units/systemd-resolved.service.in b/units/systemd-resolved.service.in
+index 10ce49345e..1fc1575cfc 100644
+--- a/units/systemd-resolved.service.in
++++ b/units/systemd-resolved.service.in
+@@ -26,7 +26,7 @@ BusName=org.freedesktop.resolve1
+ CapabilityBoundingSet=CAP_SETPCAP CAP_NET_RAW CAP_NET_BIND_SERVICE
+ ExecStart=!!{{ROOTLIBEXECDIR}}/systemd-resolved
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ PrivateDevices=yes
+ PrivateTmp=yes
+diff --git a/units/systemd-sysupdate.service.in b/units/systemd-sysupdate.service.in
+index 085a9c4a22..4c6c904ad8 100644
+--- a/units/systemd-sysupdate.service.in
++++ b/units/systemd-sysupdate.service.in
+@@ -20,7 +20,7 @@ NotifyAccess=main
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-sysupdate update
+ CapabilityBoundingSet=CAP_CHOWN CAP_FOWNER CAP_FSETID CAP_MKNOD CAP_SETFCAP CAP_SYS_ADMIN CAP_SETPCAP CAP_DAC_OVERRIDE CAP_LINUX_IMMUTABLE
+ NoNewPrivileges=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ ProtectHostname=yes
+ RestrictRealtime=yes
+ RestrictNamespaces=net
+diff --git a/units/systemd-timedated.service.in b/units/systemd-timedated.service.in
+index a8da138761..7cfdbfc02c 100644
+--- a/units/systemd-timedated.service.in
++++ b/units/systemd-timedated.service.in
+@@ -20,7 +20,7 @@ DeviceAllow=char-rtc r
+ ExecStart={{ROOTLIBEXECDIR}}/systemd-timedated
+ IPAddressDeny=any
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ PrivateTmp=yes
+ ProtectProc=invisible
+diff --git a/units/systemd-timesyncd.service.in b/units/systemd-timesyncd.service.in
+index c606461091..da9211cd25 100644
+--- a/units/systemd-timesyncd.service.in
++++ b/units/systemd-timesyncd.service.in
+@@ -28,7 +28,7 @@ CapabilityBoundingSet=CAP_SYS_TIME
+ Environment=SYSTEMD_NSS_RESOLVE_VALIDATE=0
+ ExecStart=!!{{ROOTLIBEXECDIR}}/systemd-timesyncd
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ PrivateDevices=yes
+ PrivateTmp=yes
+diff --git a/units/systemd-udevd.service.in b/units/systemd-udevd.service.in
+index dfc2a0e341..5f05516c46 100644
+--- a/units/systemd-udevd.service.in
++++ b/units/systemd-udevd.service.in
+@@ -29,7 +29,7 @@ KillMode=mixed
+ TasksMax=infinity
+ PrivateMounts=yes
+ ProtectHostname=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ RestrictAddressFamilies=AF_UNIX AF_NETLINK AF_INET AF_INET6
+ RestrictRealtime=yes
+ RestrictSUIDSGID=yes
+diff --git a/units/systemd-userdbd.service.in b/units/systemd-userdbd.service.in
+index b57661100c..4bbba3616c 100644
+--- a/units/systemd-userdbd.service.in
++++ b/units/systemd-userdbd.service.in
+@@ -21,7 +21,7 @@ ExecStart={{ROOTLIBEXECDIR}}/systemd-userdbd
+ IPAddressDeny=any
+ LimitNOFILE={{HIGH_RLIMIT_NOFILE}}
+ LockPersonality=yes
+-MemoryDenyWriteExecute=yes
++MemoryDenyWriteExecute=no
+ NoNewPrivileges=yes
+ PrivateDevices=yes
+ ProtectProc=invisible
+-- 
+2.35.8
+

@@ -1,0 +1,10 @@
+[Unit]
+Description= Console SSH socket for Slot1
+Wants=obmc-console@ttyS1.service
+
+[Socket]
+ListenStream=2301
+Accept=yes
+
+[Install]
+WantedBy=sockets.target

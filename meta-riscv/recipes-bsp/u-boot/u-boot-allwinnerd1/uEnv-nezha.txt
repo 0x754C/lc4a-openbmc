@@ -1,0 +1,11 @@
+# reset ethernet phy
+# TODO: fix by device tree & drivers
+ethfixcmd=gpio set PE16; sleep 0.5; gpio clear PE16; sleep 0.5;gpio set PE16;
+# reset uart chip
+uartrstcmd=gpio set PG17; sleep 0.5; gpio clear PG17; sleep 0.5;gpio set PG17;
+# usb sel 
+usbselcmd=gpio set PG3;
+bootargs=clk_ignore_unused root=/dev/mmcblk0p2 rootwait
+bootcmd_load_f=load ${devtype} ${devnum}:${distro_bootpart} ${ramdisk_addr_r} fitImage
+bootcmd_run=bootm ${ramdisk_addr_r} - ${fdtcontroladdr}
+bootcmd=run usbselcmd; run uartrstcmd; run ethfixcmd; run bootcmd_load_f; run bootcmd_run

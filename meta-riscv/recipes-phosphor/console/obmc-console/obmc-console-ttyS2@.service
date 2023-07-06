@@ -1,0 +1,11 @@
+[Unit]
+Description= Console SSH socket for Slot2
+Wants=obmc-console@ttyS2.service
+
+[Service]
+ExecStart=/usr/sbin/dropbear -i -r /etc/dropbear/dropbear_rsa_host_key -c "/usr/bin/obmc-console-client -c /etc/obmc-console/client.2202.conf" $DROPBEAR_EXTRA_ARGS
+SyslogIdentifier=console-client-S2
+CollectMode=inactive-or-failed
+ExecReload=/bin/kill -HUP $MAINPID
+StandardInput=socket
+KillMode=process

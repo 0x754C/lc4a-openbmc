@@ -11,6 +11,9 @@ PR = "r1"
 
 SRC_URI = "git://github.com/openbmc/pam-ipmi;branch=master;protocol=https"
 
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+SRC_URI += "file://0001-Fix-build-for-riscv64.patch"
+
 S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig

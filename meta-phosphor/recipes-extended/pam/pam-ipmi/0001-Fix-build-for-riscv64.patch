@@ -1,0 +1,25 @@
+From 9240398cc0cec4c4a4c7bf41e55c3903a07770de Mon Sep 17 00:00:00 2001
+From: Lu Hui <luhui@sipeed.com>
+Date: Tue, 4 Jul 2023 18:24:08 +0800
+Subject: [PATCH] Fix build for riscv64
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 668f744..c44d621 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -21,7 +21,7 @@ AC_PROG_MAKE_SET
+ AC_CANONICAL_TARGET
+ TARGET_OS_ARCH=""
+ AS_CASE([$target_cpu],
+-        [x86_64|aarch64*|mips64*|ppc64*|sparc64],
++        [x86_64|aarch64*|mips64*|ppc64*|sparc64|riscv64],
+         [
+             TARGET_OS_ARCH="64"
+         ],
+-- 
+2.35.8
+
