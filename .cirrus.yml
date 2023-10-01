@@ -1,0 +1,32 @@
+compute_engine_instance:
+  image_project: cirrus-images
+  image: family/docker-builder
+  platform: linux
+  cpu: 8
+  memory: 32G
+
+env:
+  HOME: /tmp/cirrus-ci-build/
+  BUILDER_HOME: /home/builder
+  CIRRUS_WORKING_DIR: /tmp/cirrus-ci-build/build
+
+task:
+  timeout_in: 90m
+
+  install_script: |
+    apt update && \
+    apt install -y git python3-distutils gcc g++ make file wget \
+                  gawk diffstat bzip2 cpio chrpath zstd lz4 bzip2 bash sudo
+
+  setup_script: |
+    echo $PWD && \
+    useradd -s /bin/bash -G sudo -m builder && \
+    cp -R . ${BUILDER_HOME} && \
+    chown -R builder ${BUILDER_HOME}
+
+  compile_openbmc_script: |
+    su builder -c "cd ~ && . setup licheepi-rv licheepi-rv-build && bitbake obmc-phosphor-image" && \
+    cp -vL ${BUILDER_HOME}/licheepi-rv-build/tmp/deploy/images/licheepi-rv/obmc-phosphor-image-licheepi-rv.wic.gz ${CIRRUS_WORKING_DIR}/
+
+  binaries_artifacts:
+    path: "obmc-phosphor-image-licheepi-rv.wic.gz"
