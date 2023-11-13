@@ -26,7 +26,7 @@ rst_high
 rst_low
 rst_high
 sleep 3
-blisp iot -c bl70x -p /dev/ttyACM0 -s $(dirname $(realpath $0))/bl702_dualuart_whole_img.bin -s 0x0
+blisp iot -c bl70x -p /dev/ttyACM0 -s $(dirname $(realpath $0))/bl702_dualuart_whole_img.bin -l 0x0
 boot_low
 rst_high
 rst_low
